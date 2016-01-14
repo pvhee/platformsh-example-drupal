@@ -14,7 +14,7 @@ build:
 # The build-time dependencies of the app.
 dependencies:
     php:
-        "drush/drush": "8.0.0-rc3"
+        "drush/drush": "^8.0"
 
 # The relationships of the application with services or other applications.
 # The left-hand side is the name of the relationship as it will be exposed
@@ -41,6 +41,7 @@ mounts:
     "/tmp": "shared:files/tmp"
     "/config": "shared:files/config"
     "/private": "shared:files/private"
+    "/drush-backups": "shared:files/drush-backups"
 
 # The hooks executed at various points in the lifecycle of the application.
 hooks:
