@@ -45,6 +45,7 @@ web:
             # location to the application.
             # (Can be true, false or a URI path string.)
             passthru: "/index.php"
+
 # The size of the persistent disk of the application (in MB).
 disk: 2048
 
