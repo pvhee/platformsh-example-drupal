@@ -11,11 +11,6 @@ type: "php:5.6"
 build:
     flavor: drupal
 
-# The build-time dependencies of the app.
-dependencies:
-    php:
-        "drush/drush": "7.1.0"
-
 # The relationships of the application with services or other applications.
 # The left-hand side is the name of the relationship as it will be exposed
 # to the application in the PLATFORM_RELATIONSHIPS variable. The right-hand
@@ -53,7 +48,6 @@ mounts:
     "/public/sites/default/files": "shared:files/files"
     "/tmp": "shared:files/tmp"
     "/private": "shared:files/private"
-    "/drush-backups": "shared:files/drush-backups"
 
 # The hooks executed at various points in the lifecycle of the application.
 hooks:
