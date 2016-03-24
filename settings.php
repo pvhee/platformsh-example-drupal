@@ -4,44 +4,46 @@
  * Platform.sh example settings.php file for Drupal 8.
  */
 
-// Install with the 'standard' profile for this example.
-$settings['install_profile'] = 'standard';
-
-// You should modify the hash_salt so that it is specific to your application.
-$settings['hash_salt'] = '4946c1912834b8477cc70af309a2c30dcec24c2103c724ff30bf13b4c10efd82';
-
-/**
- * Default Drupal 8 settings.
- *
- * These are already explained with detailed comments in Drupal's
- * default.settings.php file.
- *
- * See https://api.drupal.org/api/drupal/sites!default!default.settings.php/8
- */
-$databases = array();
-$config_directories = array();
+// Default Drupal 8 settings.
+//
+// These are already explained with detailed comments in Drupal's
+// default.settings.php file.
+//
+// See https://api.drupal.org/api/drupal/sites!default!default.settings.php/8
+$databases = [];
+$config_directories = [];
 $settings['update_free_access'] = FALSE;
 $settings['container_yamls'][] = __DIR__ . '/services.yml';
 
-// Define a config sync directory outside the document root.
+// Install with the 'standard' profile for this example.
+//
+// As the settings.php file is not writable during install on Platform.sh (for
+// good reasons), Drupal will refuse to install a profile that is not defined
+// here.
+$settings['install_profile'] = 'standard';
+
+// You should modify the hash_salt so that it is specific to your application.
+//
+// You can do this with a Platform.sh environment variable (drupal:hash_salt or
+// d8settings:hash_salt).
+$settings['hash_salt'] = '4946c1912834b8477cc70af309a2c30dcec24c2103c724ff30bf13b4c10efd82';
+
+// Set up a config sync directory outside the document root.
+//
+// This is defined inside the writable "config" mount. You may wish to change
+// this to be deployed via Git (and thus in a read-only directory). However,
+// at the moment that means Drupal will not be installable.
+// See issue: https://www.drupal.org/node/2607352
 if (isset($_ENV['PLATFORM_APP_DIR'])) {
   $config_directories[CONFIG_SYNC_DIRECTORY] = $_ENV['PLATFORM_APP_DIR'] . '/config/sync';
 }
 
-// Set trusted hosts based on real Platform.sh routes.
-if (isset($_ENV['PLATFORM_ROUTES'])) {
-  $routes = json_decode(base64_decode($_ENV['PLATFORM_ROUTES']), TRUE);
-  $settings['trusted_host_patterns'] = array();
-  foreach ($routes as $url => $route) {
-    $host = parse_url($url, PHP_URL_HOST);
-    if ($host !== FALSE && $route['type'] == 'upstream' && $route['upstream'] == $_ENV['PLATFORM_APPLICATION_NAME']) {
-      $settings['trusted_host_patterns'][] = '^' . preg_quote($host) . '$';
-    }
-  }
-  $settings['trusted_host_patterns'] = array_unique($settings['trusted_host_patterns']);
+// Automatic Platform.sh settings.
+if (file_exists(__DIR__ . '/settings.platformsh.php')) {
+  include __DIR__ . '/settings.platformsh.php';
 }
 
-// Local settings. These are required for Platform.sh.
+// Local settings. These come last so that they can override anything.
 if (file_exists(__DIR__ . '/settings.local.php')) {
   include __DIR__ . '/settings.local.php';
 }
