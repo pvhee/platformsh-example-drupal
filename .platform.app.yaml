@@ -53,7 +53,6 @@ disk: 2048
 mounts:
     "/public/sites/default/files": "shared:files/files"
     "/tmp": "shared:files/tmp"
-    "/config": "shared:files/config"
     "/private": "shared:files/private"
     "/drush-backups": "shared:files/drush-backups"
 
@@ -62,6 +61,8 @@ hooks:
     # We run deploy hooks after your application has been deployed and started.
     deploy: |
       cd public
+      drush -y cache-rebuild
+      drush -y config-import
       drush -y updatedb
 
 # The configuration of scheduled execution.
