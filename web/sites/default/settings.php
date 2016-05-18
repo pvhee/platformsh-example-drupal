@@ -20,7 +20,7 @@ $settings['container_yamls'][] = __DIR__ . '/services.yml';
 // As the settings.php file is not writable during install on Platform.sh (for
 // good reasons), Drupal will refuse to install a profile that is not defined
 // here.
-$settings['install_profile'] = 'standard';
+$settings['install_profile'] = 'commerce_base';
 
 // You should modify the hash_salt so that it is specific to your application.
 //
