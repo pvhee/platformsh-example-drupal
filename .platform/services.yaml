@@ -4,7 +4,7 @@
 # to power your Platform.sh project.
 
 mysql:
-    type: mysql:5.5
+    type: mysql:10.0
     disk: 2048
 
 #redis:
