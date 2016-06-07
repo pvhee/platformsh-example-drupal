@@ -1,71 +1,40 @@
-# Composer template for Drupal projects
+# Drupal project template for Platform.sh
 
-[![Build Status](https://travis-ci.org/drupal-composer/drupal-project.svg?branch=8.x)](https://travis-ci.org/drupal-composer/drupal-project)
+This project provides a starter kit for Drupal 8 projects hosted on [Platform.sh](http://platform.sh). It
+is very closely based on the [Drupal Composer project](https://github.com/drupal-composer/drupal-project).
 
-This project template should provide a kickstart for managing your site
-dependencies with [Composer](https://getcomposer.org/).
+## Starting a new project
 
-If you want to know how to use it as replacement for
-[Drush Make](https://github.com/drush-ops/drush/blob/master/docs/make.md) visit
-the [Documentation on drupal.org](https://www.drupal.org/node/2471553).
+To start a new Drupal 8 project on Platform.sh, you have 2 options:
 
-## Usage
+1. Create a new project through the Platform.sh user interface and select "start
+   new project from a template".  Then select Drupal 8 as the template. That will
+   create a new project using this repository as a starting point.
 
-First you need to [install composer](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx).
+2. Take an existing project, add the necessary Platform.sh files, and push it
+   to a Platform.sh Git repository. This template includes examples of how to
+   set up a Drupal 8 site.  (See the "differences" section below.)
 
-> Note: The instructions below refer to the [global composer installation](https://getcomposer.org/doc/00-intro.md#globally).
-You might need to replace `composer` with `php composer.phar` (or similar) for your setup.
+## Using as a reference
 
-After that you can create the project:
+You can also use this repository as a reference for your own Drupal projects, and
+borrow whatever code is needed.  The most important parts are the `.platform.app.yaml` file,
+the `.platform` directory, and the changes made to `settings.php`.
 
-```
-composer create-project drupal-composer/drupal-project:8.x-dev some-dir --stability dev --no-interaction
-```
+## Managing a Drupal site built with Composer
 
-With `composer require ...` you can download new dependencies to your installation.
+Once the site is installed, there is no difference between a site hosted on Platform.sh
+and a site hosted anywhere else.  It's just Composer.  See the [Drupal documentation](https://www.drupal.org/node/2404989)
+for tips on how best to leverage Composer with Drupal 8.
 
-```
-cd some-dir
-composer require drupal/devel:8.*
-```
+## How does this starter kit differ from vanilla Drupal from Drupal.org?
 
-## What does the template do?
+1. The `vendor` directory (where non-Drupal code lives) and the `config` directory
+   (used for syncing configuration from development to production) are outside
+   the web root. This is a bit more secure as those files are now not web-accessible.
 
-When installing the given `composer.json` some tasks are taken care of:
+2. The `settings.php` and `settings.platformsh.php` files are provided by
+   default. The `settings.platformsh.php` file automatically sets up the database connection on Platform.sh, and allows controlling Drupal configuration from environment variables.
 
-* Drupal will be installed in the `web`-directory.
-* Autoloader is implemented to use the generated composer autoloader in `vendor/autoload.php`,
-  instead of the one provided by Drupal (`web/vendor/autoload.php`).
-* Modules (packages of type `drupal-module`) will be placed in `web/modules/contrib/`
-* Theme (packages of type `drupal-theme`) will be placed in `web/themes/contrib/`
-* Profiles (packages of type `drupal-profile`) will be placed in `web/profiles/contrib/`
-* Creates default writable versions of `settings.php` and `services.yml`.
-* Creates `sites/default/files`-directory.
-* Latest version of drush is installed locally for use at `vendor/bin/drush`.
-* Latest version of DrupalConsole is installed locally for use at `vendor/bin/console`.
-
-## Updating Drupal Core
-
-Updating Drupal core is a two-step process.
-
-1. Update the version number of `drupal/core` in `composer.json`.
-1. Run `composer update drupal/core`.
-1. Run `./scripts/drupal/update-scaffold` to update files in the `web` directory.
-   This will update `web` with whatever the latest Drupal 8 release is. Review
-   the files for any changes and restore any customizations to `.htaccess` or
-   `robots.txt`.
-1. Commit everything all together in a single commit, so `web` will remain in
-   sync with the `core` when checking out branches or running `git bisect`.
-
-## Generate composer.json from existing project
-
-With using [the "Composer Generate" drush extension](https://www.drupal.org/project/composer_generate)
-you can now generate a basic `composer.json` file from an existing project. Note
-that the generated `composer.json` might differ from this project's file.
-
-
-## FAQ
-
-### Should I commit the contrib modules I download
-
-Composer recommends **no**. They provide [argumentation against but also workrounds if a project decides to do it anyway](https://getcomposer.org/doc/faqs/should-i-commit-the-dependencies-in-my-vendor-directory.md).
+3. We include recommended `.platform.app.yaml` and `.platform` files that should suffice
+   for most use cases. You are free to tweak them as needed for your particular site.
