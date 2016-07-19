@@ -63,7 +63,7 @@ web:
         "/sites/default/files":
             allow: true
             rules:
-                # Always deny PHP files.
+                # Always deny sensitive files.
                 # This list is copied from Drupal's .htaccess file.
                 "\.(engine|inc|install|make|module|profile|po|sh|.*sql|theme|twig|tpl(\.php)?|xtmpl|yml)(~|\.sw[op]|\.bak|\.orig|\.save)?$|^(\.(?!well-known).*|Entries.*|Repository|Root|Tag|Template|composer\.(json|lock))$|^#.*#$|\.php(~|\.sw[op]|\.bak|\.orig|\.save)$":
                     allow: false
