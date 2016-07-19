@@ -51,10 +51,6 @@ web:
             
             # Rules for specific URI patterns. 
             rules:
-                # Always deny access to PHP files.
-                "\.(php|inc|module|engine)$":
-                    allow: false
-
                 # Allow access to robots.txt.
                 "/robots\.txt":
                     allow: true
@@ -67,9 +63,12 @@ web:
         "/sites/default/files":
             allow: true
             rules:
-                "\.(php|inc|module|engine)$":
+                # Always deny PHP files.
+                # This list is copied from Drupal's .htaccess file.
+                "\.(engine|inc|install|make|module|profile|po|sh|.*sql|theme|twig|tpl(\.php)?|xtmpl|yml)(~|\.sw[op]|\.bak|\.orig|\.save)?$|^(\.(?!well-known).*|Entries.*|Repository|Root|Tag|Template|composer\.(json|lock))$|^#.*#$|\.php(~|\.sw[op]|\.bak|\.orig|\.save)$":
                     allow: false
 
+                # Set a longer cache TTL for static files.
                 "\.(txt|html?|jpe?g|png|gif|svgz?|css|js|ico|bmp|ttf|woff2?)$":
                     expires: 1M
         
