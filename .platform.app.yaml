@@ -45,6 +45,34 @@ web:
             # location to the application.
             # (Can be true, false or a URI path string.)
             passthru: "/index.php"
+            
+            # Deny access to static files by default.
+            allow: false
+            
+            # Rules for specific URI patterns. 
+            rules:
+                # Always deny access to PHP files.
+                "\.(php|inc|module|engine)$":
+                    allow: false
+
+                # Allow access to robots.txt.
+                "/robots\.txt":
+                    allow: true
+                
+                # Allow access to common static files.
+                "\.(txt|html?|jpe?g|png|gif|svgz?|css|js|ico|bmp|ttf|woff2?)$":
+                    allow: true
+                    expires: 1w
+                
+        "/sites/default/files":
+            allow: true
+            rules:
+                "\.(php|inc|module|engine)$":
+                    allow: false
+
+                "\.(txt|html?|jpe?g|png|gif|svgz?|css|js|ico|bmp|ttf|woff2?)$":
+                    expires: 1M
+        
 
 # The size of the persistent disk of the application (in MB).
 disk: 2048
